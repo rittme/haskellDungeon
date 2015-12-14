@@ -1,3 +1,5 @@
+module GameIO where
+
 opening :: IO()
 opening =
   putStrLn "                                    .xm*f\"\"??T?@hc. \n\
