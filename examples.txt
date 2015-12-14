@@ -1,0 +1,65 @@
+You enter into a ________ _____________________ room.
+                 big       cold
+                 small     dark
+                 long      beautiful
+                 deep      scary
++
+
+Action => Combat | Treasure | Damage | Choice
+            |         |         |        |
+            |         |         |        '-> There is nothing to do here.
+            |         |         |            1) Take the first door.
+            |         |         |            2) Take the second door.
+            |         |         |
+            |         |         '-> The room is filled with toxic gas.
+            |         |             The floor is wet and you get electrocuted.
+            |         |             1) Take X damage and leave.
+            |         |
+            |         '-> You find a chest with a weapon.
+            |             1) Take weapon.
+            |             2) Leave weapon.
+            '-> combat...
+
+--------------------------------------------------------------------------------------------------------------
+
+You enter in a room with a dragon.
+
+1) Attack with Sword
+2) Attack with Dagger
+
+----------------------------------
+1
+----------------------------------
+
+Player used Dagger: 10 damage
+Dragon used Fire breath: 30 damage
+
+Player life: 70/100
+Monster life: 90/100
+
+----------------------------------
+
+1) Attack with Sword
+2) Attack with Dagger
+
+
+--------------------------------------------------------------------------------------------------------------
+You enter into a dark room. In a corner you see a closed chest. Opening it you see a Shock Scroll.
+
+1) Take Shock Scroll
+2) Leave room
+
+----------------------------------
+1
+----------------------------------
+
+--------------------------------------------------------------------------------------------------------------
+You wake up in the dungeon cell you have been rotting for ages. Everything sounds suspiciously quiet. You notice the celldoor is open.
+
+1) Go out
+
+----------------------------------
+1
+----------------------------------
+
+next room...
