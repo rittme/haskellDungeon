@@ -1,27 +1,34 @@
-data Character = Character {life :: Int, bag :: [Object]}
-  deriving(Show)
+module Characters where
 
 data Object = Object {name :: String, damage :: Int}
   deriving(Show)
 
---                     name   life damage
-data Monster = Monster String Int Int
+data Character = Player Int [Object] | Monster String Int Object
   deriving(Show)
 
-attack :: Object -> Monster -> Monster
+life :: Character -> Int
+life (Monster _ l _) = l
+life (Player l _) = l
+
+attack :: Object -> Character -> Character
 attack (Object _ damage) (Monster s life d) = Monster s (life - damage) d
-
-monsterAttack :: Monster -> Character -> Character
-monsterAttack (Monster _ _ d) (Character l b) = Character (l - d) b
-
+attack (Object _ damage) (Player life bag) = Player (life - damage) bag
 
 testbag :: [Object]
 testbag = [Object "Dagger" 10, Object "Shock scroll" 15, Object "Dart" 5]
 
-player = Character 100 testbag
+player = Player 100 testbag
 
-monsters :: [Monster]
+monsters :: [Character]
 
-monsters = [Monster "Dragon" 100 30,
-            Monster "Goblin" 20 5,
-            Monster "Ghost" 40 15]
+monsters = [Monster "Dragon" 100 (Object "Fire breath" 30),
+            Monster "Goblin" 20 (Object "Spear" 5),
+            Monster "Ghost" 40 (Object "Soul touch" 15)]
+
+name :: Character -> String
+name (Monster s _ _) = s
+name _ = "Player"
+
+
+-- Player used Dagger: 10 damage
+-- Dragon used Fire breath: 30 damage
