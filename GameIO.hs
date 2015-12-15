@@ -1,8 +1,20 @@
 module GameIO where
 
+import System.Console.ANSI
+
+colorStrLn :: ColorIntensity -> Color -> ColorIntensity -> Color -> String -> IO ()
+colorStrLn fgi fg bgi bg str = do
+  setSGR [SetColor Foreground fgi fg, SetColor Background bgi bg]
+  putStr str
+  setSGR []
+  putStrLn ""
+
+colorText :: Color -> String -> IO()
+colorText c = colorStrLn Dull c Dull Black
+
 opening :: IO()
 opening =
-  putStrLn "                                    .xm*f\"\"??T?@hc. \n\
+  colorText Red "                                    .xm*f\"\"??T?@hc. \n\
 \                                  z@\"` '~((!!!!!!!?*m. \n\
 \                                z$$$K   ~~(/!!!!!!!!!Mh \n\
 \                              .f` \"#$k'`~~\\!!!!!!!!!!!MMc \n\
