@@ -1,6 +1,9 @@
 module Room where
 
+import Data.Maybe
+import Data.Char
 import Data.String
+
 import Characters
 
 data Room = Room { description :: String, action :: Action }
