@@ -25,10 +25,9 @@ monsters = [Monster "Dragon" 100 (Object "Fire breath" 30),
             Monster "Goblin" 20 (Object "Spear" 5),
             Monster "Ghost" 40 (Object "Soul touch" 15)]
 
-name :: Character -> String
-name (Monster s _ _) = s
-name _ = "Player"
-
+nameChar :: Character -> String
+nameChar (Monster s _ _) = s
+nameChar _ = "Player"
 
 -- Player used Dagger: 10 damage
 -- Dragon used Fire breath: 30 damage
