@@ -33,7 +33,6 @@ nameChar :: Character -> String
 nameChar (Monster s _ _)  = s
 nameChar _                = "Player"
 
-
 -- Player used Dagger: 10 damage
 -- Dragon used Fire breath: 30 damage
 -------------------------------------------------------------------------
