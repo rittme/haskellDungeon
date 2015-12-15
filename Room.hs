@@ -25,3 +25,4 @@ rooms = [
 --                        putStrLn d
 --                        putStrLn actionChoces
 --                        choice <- getLine
+
