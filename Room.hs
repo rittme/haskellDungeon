@@ -23,11 +23,6 @@ rooms = [
   Room "You enter into a dark room. In a corner you see a closed chest. Opening it you see a Shock Scroll." (Treasure (Weapon (Object "Shock Scroll" 15)))
   ]
 
---showRoom :: Room -> IO()
---showRoom (Room d a) = do
---                        putStrLn d
---                        putStrLn actionChoces
---                        choice <- getLine
 
 
 actionChoices :: Action -> String

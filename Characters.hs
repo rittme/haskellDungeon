@@ -3,6 +3,8 @@ module Characters where
 import Data.List
 import Data.Maybe
 import Data.Char
+import Test.QuickCheck.Gen
+import System.Random
 
 data Object = Object {name :: String, damage :: Int}
   deriving(Show)
@@ -14,9 +16,20 @@ life :: Character -> Int
 life (Monster _ l _) = l
 life (Player l _) = l
 
-attack :: Object -> Character -> Character
-attack (Object _ damage) (Monster s life d) = Monster s (life - damage) d
-attack (Object _ damage) (Player life bag) = Player (life - damage) bag
+
+coeff :: IO Double
+coeff = randomRIO (0.5, 2.0)
+
+attack :: Object -> Character -> IO Character
+attack (Object _ damage) (Monster s life d) = do
+                            n <- coeff
+                            let newLife = life - floor (n * fromIntegral damage) 
+                            return $ Monster s newLife d
+
+attack (Object _ damage) (Player life bag) =  do
+                                    n <- coeff
+                                    let newLife = life - floor (n * fromIntegral damage)
+                                    return $ Player  newLife bag
 
 testbag :: [Object]
 testbag = [Object "Dagger" 10, Object "Shock scroll" 15, Object "Dart" 5]
@@ -91,8 +104,8 @@ showStatus p o m  | isNothing o  = return ()
 
 
 -- TODO : check player's (and monster's ??) life and where
-fightRound :: Character -> Maybe (Int, Object) -> Character
-fightRound char obj | isNothing obj = char
+fightRound :: Character -> Maybe (Int, Object) -> IO Character
+fightRound char obj | isNothing obj = return char
                     | otherwise     = attack (snd (fromJust obj)) char 
 
 fight :: Character -> Character -> IO Character
@@ -101,8 +114,8 @@ fight (Player l b) monster | isEndfight (Player l b) monster = return (Player l 
                                   choice <- getChoice b
                                   let zippedBag = zipBag b
                                   let ob  = getObject choice zippedBag
-                                  let p   = fightRound (Player l b) ob
-                                  let m   = fightRound monster ob
+                                  p <- fightRound (Player l b) ob
+                                  m <- fightRound monster ob
                                   showStatus p ob m
                                   fight p m
                                   
