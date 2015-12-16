@@ -16,7 +16,8 @@ life :: Character -> Int
 life (Monster _ l _) = l
 life (Player l _) = l
 
-
+amIAlive :: Character -> Bool
+amIAlive c = life c > 0
 
 testbag :: [Object]
 testbag = [Object "Dagger" 10, Object "Shock scroll" 15, Object "Dart" 5]
@@ -77,7 +78,7 @@ getObject chx bag | isIntValue chx  = do
 
 -- isEndfight: The fight is end : The player or the monster is dead
 isEndfight :: Character -> Character -> Bool
-isEndfight (Player endur _) (Monster _ life _) = endur <= 0 || life <= 0
+isEndfight p m = (not . amIAlive) p || (not . amIAlive) m
 
 
 -- getChoice: get the player's choice
