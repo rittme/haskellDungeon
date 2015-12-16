@@ -2,7 +2,7 @@ import Helpers
 import Characters
 import Room
 import GameIO
-
+import Dungeon
 
 characters = [
   ("The strong warrior and his powerful axe.", Player 120 [Object "Axe" 20]),
@@ -16,7 +16,7 @@ chooseCharacter = do
                     return $ snd (characters !! (c - 1))
 
 startGame :: IO()
-startGame = opening >> chooseCharacter >>= \player -> gameLoop rooms player
+startGame = opening >> chooseCharacter >>= \player -> gameLoop dungeon player
 
 gameLoop :: [Room] -> Character -> IO()
 gameLoop [] c = playRoom victory c >> showVictory
