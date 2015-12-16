@@ -1,17 +1,9 @@
-module DungeonParser where 
+module DungeonParser where
 
 import Parsing
 import Room
 import Characters
 import Data.Maybe
-
-{-
-COMBAT "Dragon" 99 "Claw" 20
-OBJECT "sword" 20
-"HEALING 20"
-DAMAGE 20
-CHOICES "Door 1" "Door 2" "Door 3"
--}
 
 getDungeon :: FilePath -> IO [Room]
 getDungeon f =  do

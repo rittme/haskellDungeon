@@ -27,24 +27,28 @@ data Action = Combat Character | Treasure Item | Damage Int | Choices [String]
 actionChoices :: Action -> String
 actionChoices (Treasure Empty) = "The chest was empty.\n1) Continue\n"
 actionChoices (Treasure (Weapon o)) = "You find a " ++ name o ++
-                                            "\n1) Take " ++ name o ++
-                                            "\n2) Leave " ++ name o ++ "\n"
-actionChoices (Treasure (Healing l)) = "You can recover " ++ show l ++ " points of life." ++
-                                            "\n1) Heal yourself. \n2) Leave\n"
-actionChoices (Damage d) = "1) Take " ++ show d ++ " damage and leave the room.\n"
-actionChoices (Choices opts) = unlines $ map (\(x,y) -> show x ++ ") " ++ y)(zip [1..] opts)
+                                      "\n1) Take " ++ name o ++
+                                      "\n2) Leave " ++ name o ++ "\n"
+actionChoices (Treasure (Healing l)) = "You can recover " ++ show l ++
+                                       " points of life." ++
+                                       "\n1) Heal yourself. \n2) Leave\n"
+actionChoices (Damage d) = "1) Take " ++ show d ++
+                           " damage and leave the room.\n"
+actionChoices (Choices opts) = unlines $ map (\(x,y) -> show x ++ ") " ++ y)
+                                             (zip [1..] opts)
 actionChoices (Combat m) = "1) Fight " ++ nameChar m
 
 -- Returns the character affected by the changes of the chosen action
 actionEffect :: Int -> Action -> Character -> Character
 actionEffect _ (Treasure Empty) p = p
+
 actionEffect 1 (Treasure (Weapon o))  (Player life bag) = Player life (o:bag)
 actionEffect 2 (Treasure (Weapon o))  player            = player
-actionEffect 1 (Treasure (Healing h)) (Player life bag) = Player (life + h) bag
+actionEffect 1 (Treasure (Healing h)) (Player life bag) = Player (life+h) bag
 actionEffect 2 (Treasure (Healing h)) player            = player
-actionEffect _ (Damage d)             (Player life bag) = Player (life - d) bag
+actionEffect _ (Damage d)             (Player life bag) = Player (life-d) bag
 actionEffect _ (Choices _)            player            = player
-actionEffect _ (Combat m)             (Player life bag) = error "Combat should never get here!"
+actionEffect _ (Combat m)             (Player life bag) = error "Combat error"
 
 -------------------- IO --------------------
 
@@ -62,15 +66,3 @@ makeChoice a p = promptInt (actionChoices a) 1 (actionLgt a) >>= \c ->
 -- Plays the passed room with the passed character
 playRoom :: Room -> Character -> IO Character
 playRoom r c = putStrLn (description r) >> makeChoice (action r) c
-
-
--- Generates a random room
---randomRoom :: IO Room
---randomRoom = (generate . elements) dungeon
---
---roomTestDescriptions :: [String]
---roomTestDescriptions = ["A small room.", "A bright room.",
---                    "A big room.", "A dark room."]
---roomTestActions :: [Action]
---roomTestActions = []
---
