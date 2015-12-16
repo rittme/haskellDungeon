@@ -29,3 +29,11 @@ actions :: Parser Action
 actions = damage +++ healing 
 
 -- Combat Character | Treasure Item | Damage Int | Choices [String]
+
+{-
+COMBAT "Dragon" 100 "Claw" 20
+OBJECT "sword" 20
+HEALING 20
+DAMAGE 20
+CHOICES "Door 1" "Door 2" "Door 3"
+-}
