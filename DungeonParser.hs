@@ -1,10 +1,7 @@
 module DungeonParser where 
 
 import Parsing
-
-data Item = Weapon Object | Healing Int
-data Action = Treasure Item | Damage Int
-  deriving (Show)
+import Room
 
 damage = do 
    mapM_ char "DAMAGE "
@@ -43,14 +40,35 @@ myIntParser = do
 
 
 actions :: Parser Action
-actions = damage +++ healing 
+actions = damage +++ healing +++ choices
 
--- Combat Character | Treasure Item | Damage Int | Choices [String]
 
+-- Parse string
+
+-- each line contains one or more cells, separated by a space
+space = ' '
+quote   = '\"'
+newline = '\n'
+
+line = do 
+   str <- chain string (char space)
+   char newline
+   return str
+
+string = do 
+  char quote
+  cs <- zeroOrMore $ sat (/= quote)
+  char quote
+  return cs
+
+choices = do 
+    mapM_ char "CHOICES "
+    chx <- line
+    return $ Choices chx
 {-
 COMBAT "Dragon" 99 "Claw" 20
 OBJECT "sword" 20
-HEALING 20
+"HEALING 20"
 DAMAGE 20
 CHOICES "Door 1" "Door 2" "Door 3"
 -}
