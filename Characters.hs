@@ -3,7 +3,7 @@ module Characters where
 import Data.List
 import Data.Maybe
 import Data.Char
-import Test.QuickCheck.Gen
+import Test.QuickCheck
 import System.Random
 
 data Object = Object {name :: String, damage :: Int}
@@ -18,11 +18,17 @@ life :: Character -> Int
 life (Monster _ l _) = l
 life (Player l _) = l
 
+
+-- ************* TESTSTSTSTST
 amIAlive :: Character -> Bool
 amIAlive c = life c > 0
 
 testbag :: [Object]
 testbag = [Object "Dagger" 10, Object "Shock scroll" 15, Object "Dart" 5]
+
+player :: Character
+player  = Player 60 [Object "Shock Spell" 40]
+-- *********************************
 
 monsters :: [Character]
 
@@ -37,6 +43,9 @@ nameChar _                = "Player"
 monsterObject :: Character -> Object
 monsterObject (Monster _ _ o) = o
 
+objectDamage :: Object -> Int
+objectDamage (Object _ damage) = damage
+
 -------------------------------------------------------------------------
 {-
   ###### FIGHT #######
@@ -46,14 +55,28 @@ monsterObject (Monster _ _ o) = o
 --          returns the attacked Character (with the resulted damage)
 attack :: Object -> Character -> Double -> Character
 attack (Object _ damage) (Monster s life d) coeff =
-                            Monster s (life - floor (coeff * fromIntegral damage)) d
+                  Monster s (life - floor (coeff * fromIntegral damage)) d
 
 attack (Object _ damage) (Player life bag) coeff =
-                                    Player  (life - floor (coeff * fromIntegral damage)) bag
+                  Player  (life - floor (coeff * fromIntegral damage)) bag
+
+-- properties attack
+prop_attack :: Object -> Character -> Double -> Bool
+prop_attack object char coef = life (attack object char coef) == 
+                      (life char - floor (coef * fromIntegral (objectDamage object)))
+
+prop_attackDamage :: Object -> Character -> Double -> Bool
+prop_attackDamage object char coef = life char > life (attack object char coef)
+
 
 -- coeff : Generates a coeff for the damage
 coeff :: IO Double
 coeff = randomRIO (0.5, 2.0)
+
+prop_coeff :: IO Bool
+prop_coeff = do
+            c <- coeff
+            return $ c >= 0.0 && c <= 2.0
 
 -- zipBag : Zips a bag of object (used to display choices)
 zipBag :: [Object] -> [(Int, Object)]
@@ -63,6 +86,7 @@ zipBag = zip [1..]
 printBag :: [(Int, Object)] -> IO ()
 printBag []   = putStrLn "*** No weapon in your bag \n 1) Run "
 printBag list = mapM_ putStrLn [itemToString x | x <- list]
+
         where itemToString :: (Int, Object) -> String
               itemToString i = show (fst i) ++ ") Attack with " ++ name (snd i)
 
