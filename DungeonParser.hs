@@ -1,5 +1,12 @@
 module DungeonParser where 
 
+{-
+  Functional Programming -- Lab 4 Mini project : Haskell Dungeon
+  ** Text-based Dungeon Adventure Game **
+
+  Group 38 - Bernardo Rittmeyer, Modou Cissé
+-}
+
 import Parsing
 import Room
 import Characters

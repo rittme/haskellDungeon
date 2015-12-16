@@ -1,3 +1,10 @@
+{-
+  Functional Programming -- Lab 4 Mini project: Haskell Dungeon
+  ** Text-based Dungeon Adventure Game **
+
+  Group 38 - Bernardo Rittmeyer, Modou Cissé
+-}
+
 module GameIO where
 
 import System.Console.ANSI
@@ -12,6 +19,7 @@ colorStrLn bold fgi fg bgi bg str = do
 
 colorText :: Color -> String -> IO()
 colorText c = colorStrLn NormalIntensity Dull c Dull Black
+
 
 opening :: IO()
 opening =
