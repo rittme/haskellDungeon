@@ -2,8 +2,8 @@ module DungeonParser where
 
 import Parsing
 
-
-data Action = Treasure Int | Damage Int
+data Item = Weapon Object | Healing Int
+data Action = Treasure Item | Damage Int
   deriving (Show)
 
 damage = do 
@@ -15,7 +15,7 @@ damage = do
 healing = do
   mapM_ char "HEALING "
   hl <- myIntParser
-  return $ Treasure hl
+  return $ Treasure (Healing hl)
 
 myIntParser :: Parser Int
 myIntParser = do 
