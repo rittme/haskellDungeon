@@ -1,0 +1,101 @@
+"You wake up in the dungeon cell you have been rotting for ages.
+Everything sounds suspiciously quiet. You notice the cell door is open."
+CHOICES "Quickly get out." "Sneak your way out"
+
+"As you enter the guards room you see 3 men on the floor. They look dead.
+As you walk through the room you start to feel dizzy. You notice the air is loaded
+with toxic gas. You manage to get out, but not without getting lightly poisoned."
+DAMAGE 010
+
+"The stairs going to the surface seems blocked by debris. You have only one
+choice of going further down into this scary place."
+CHOICES "Go down through the dark stairwell."
+
+"You walk through some dark corridors, hardly seeing what is in front of you.
+At some point you see a light coming from a door crack."
+CHOICES "Get inside the room." "Keep going through the darkness."
+
+"You stumble with a group of enraged goblins. You barely have time to reach for
+your weapon before they jump over you.
+       ,      ,                 ,      ,
+      /(.-''-.)\               /(.-''-.)\
+  |\  \/      \/  /|       |\  \/      \/  /|        |\     ____
+  | \ / =.  .= \ / |       | \ / =.  .= \ / |        | \.-./ .-'
+  \( \   o\/o   / )/       \( \   o\\/o   / )/         \ _  _(
+   \_, '-/  \-' ,_/         \_, '-/  \\-' ,_/          | .)(./
+     /   \__/   \\             /   \__/   \            |   \(
+     \,___/\___,/             \,___/\___,/            |     \   |
+   ___\ \|uu|/ /___         ___\ \|  |/ /___          |  \vvv   |
+ /`    \ .--. /    `\     /`    \ .--. /    `\        |  |__    |
+/       '----'       \   /       '----'       \      /      `-. |"
+COMBAT "Goblins" 040 "Spears and Stones" 007
+
+"After dealing with those goblins you have the occasion to have a good look at
+the room. In a corner you find a chest. Looking inside you see a nicely crafted sword.
+              (O)
+              <M
+   o          <M
+  /| ......  /:M\------------------------------------------------,,,,,,
+(O)[]XXXXXX[]I:K+}=====<{H}>================================------------>
+  \| ^^^^^^  \:W/------------------------------------------------''''''
+   o          <W
+              <W
+              (O)"
+OBJECT "Sword" 020
+
+"You keep dwelling through the dungeon and you find yourself in a strange room.
+It's clean and all the walls are shiny. At the center it contains a magnificent
+fountain overflowing with healing water.
+                      .      .       .       .
+  .   .       .          .      . .      .         .          .    .
+         .       .         .    .   .         .         .            .
+    .   .    .       .         . . .        .        .     .    .
+ .          .   .       .       . .      .        .  .              .
+      .  .    .  .       .     . .    .       . .      .   .        .
+ .   .       .    . .      .    . .   .      .     .          .     .
+    .            .    .     .   . .  .     .   .               .
+     .               .  .    .  . . .    .  .                 .
+                        . .  .  . . .  . .
+                            . . . . . .
+                              . . . .
+                               I . I
+                 _______________III_______________
+                /    .       .       .       .    \
+               ( ~~~ .  ~~~  .  ~~~  .  ~~~  . ~~~ )
+                 \SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS/
+                    \ ======================= /
+                        \SSSSSSSSSSSSSSSSS/
+                     ________\       /________
+                    (=+=+=+=+=+=+=+=+=+=+=+=+=)
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~"
+HEALING 025
+
+"Your way leads you to a long corridor. You can feel a breeze coming from it.
+That's your way out!"
+CHOICES "Run to your freedom!"
+
+"After passing by a small door you find yourself outside. It seems you are at the
+summit of a dormant volcano. There are hot gushes of vapor coming out of holes in
+the floor. In the center of the crater lies a pile of gold and gems.
+Standing over it there is a mighty Dragon, king of the mountain.
+He looks at you with his greedy eyes. If you want to be free, you will have
+to make your way through this flying terror.
+            <>=======()
+           (/\___   /|\\          ()==========<>_
+                 \_/ | \\        //|\   ______/ \)
+                   \_|  \\      // | \_/
+                     \|\/|\_   //  /\/
+                      (oo)\ \_//  /
+                     //_/\_\/ /  |
+                    @@/  |=\  \  |
+                         \_=\_ \ |
+                           \==\ \|\_
+                        __(\===\(  )\
+                       (((~) __(_/   |
+                            (((~) \  /
+                            ______/ /
+                            '------'"
+COMBAT "Dragon" 150 "Fire Breath" 025
+
+"You killed the king of the mountain. You are free and full of riches."
+CHOICES "Leave as fast as you can to enjoy your freedom." "Get as much gold as you can carry with you before leaving."
