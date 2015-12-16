@@ -1,3 +1,8 @@
+module Helpers where
+
+import Data.Maybe
+import Data.Char
+
 maybeRead :: (Read a, Num a) => String -> Maybe a
 maybeRead = fmap fst . listToMaybe . filter (all isSpace . snd) . reads
 
