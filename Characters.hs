@@ -18,17 +18,9 @@ life :: Character -> Int
 life (Monster _ l _) = l
 life (Player l _) = l
 
-
--- ************* TESTSTSTSTST
 amIAlive :: Character -> Bool
 amIAlive c = life c > 0
 
-testbag :: [Object]
-testbag = [Object "Dagger" 10, Object "Shock scroll" 15, Object "Dart" 5]
-
-player :: Character
-player  = Player 60 [Object "Shock Spell" 40]
--- *********************************
 
 monsters :: [Character]
 
