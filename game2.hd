@@ -1,0 +1,23 @@
+"You're at the command post of your spaceship. Suddenly every alarm goes off."
+CHOICES "Look at the monitors"
+
+"An alien spaceship approaches. It doesn't seem friendly and start attacking
+you straight away. Your team prepares the guns.
+                     `. ___
+                    __,' __`.                _..----....____
+        __...--.'``;.   ,.   ;``--..__     .'    ,-._    _.-'
+  _..-''-------'   `'   `'   `'     O ``-''._   (,;') _,'
+,'________________                          \`-._`-','
+ `._              ```````````------...___   '-.._'-:
+    ```--.._      ,.                     ````--...__\-.
+            `.--. `-`                       ____    |  |`
+              `. `.                       ,'`````.  ;  ;`
+                `._`.        __________   `.      \'__/`
+                   `-:._____/______/___/____`.     \  `
+                               |       `._    `.    \
+                               `._________`-.   `.   `.___
+                                             SSt  `------'`"
+COMBAT "Alien ship" 200 "Laser guns" 010
+
+"The aliens are gone and you can keep traveling free."
+CHOICES "Follow you route to your destination."
