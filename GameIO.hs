@@ -105,5 +105,5 @@ showVictory = colorText Green "\
 \                 '       |_ -          ."
 
 printCharacter :: Character -> IO()
-printCharacter (Player l o) = colorStrLn NormalIntensity Dull Black Dull White $ "\nPLAYER - life: " ++ show l ++ "\n Objects: " ++ show o
-printCharacter (Monster n l o) = colorStrLn NormalIntensity Dull Black Dull White $ "\n" ++ n ++ " - life: " ++ show l ++ "\n Weapon: " ++ show o
+printCharacter (Player l o) = colorStrLn BoldIntensity Dull Cyan Dull Black $ "\nPLAYER - life: " ++ show l ++ "\nObjects: " ++ show o
+printCharacter (Monster n l o) = colorStrLn BoldIntensity Dull Cyan Dull Black $ "\n" ++ n ++ " - life: " ++ show l ++ "\nWeapon: " ++ show o

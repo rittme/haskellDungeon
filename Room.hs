@@ -42,7 +42,7 @@ actionEffect 1 (Treasure (Weapon o))  (Player life bag) = Player life (o:bag)
 actionEffect 2 (Treasure (Weapon o))  player            = player
 actionEffect 1 (Treasure (Healing h)) (Player life bag) = Player (life + h) bag
 actionEffect 2 (Treasure (Healing h)) player            = player
-actionEffect _ (Damage d)             (Player life bag) = Player (life - d) bag --TODO: Player can die
+actionEffect _ (Damage d)             (Player life bag) = Player (life - d) bag
 actionEffect _ (Choices _)            player            = player
 actionEffect _ (Combat m)             (Player life bag) = error "Combat should never get here!"
 
