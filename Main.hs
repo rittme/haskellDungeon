@@ -19,6 +19,7 @@ startGame :: IO()
 startGame = opening >> chooseCharacter >>= \player -> gameLoop dungeon player
 
 gameLoop :: [Room] -> Character -> IO()
-gameLoop [] c = playRoom victory c >> showVictory
-gameLoop (r:rs) c | life c > 0 = playRoom r c >>= \p -> gameLoop rs p
-                | otherwise  = showDead
+gameLoop [] c = showVictory
+gameLoop (r:rs) c | amIAlive c = printCharacter c >> playRoom r c >>= \p -> gameLoop rs p
+                  | otherwise  = gameOver
+

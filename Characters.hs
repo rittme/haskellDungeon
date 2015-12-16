@@ -7,7 +7,9 @@ import Test.QuickCheck
 import System.Random
 
 data Object = Object {name :: String, damage :: Int}
-  deriving(Show)
+
+instance Show Object where
+  show (Object n d) = n ++ " : " ++ show d
 
 data Character = Player Int [Object] | Monster String Int Object
   deriving(Show)
@@ -16,8 +18,14 @@ life :: Character -> Int
 life (Monster _ l _) = l
 life (Player l _) = l
 
+<<<<<<< HEAD
 
 -- ************* TESTSTSTSTST
+=======
+amIAlive :: Character -> Bool
+amIAlive c = life c > 0
+
+>>>>>>> 7172efe3042bb50eb85e58404b3d2c2aeee8ebce
 testbag :: [Object]
 testbag = [Object "Dagger" 10, Object "Shock scroll" 15, Object "Dart" 5]
 
@@ -99,7 +107,7 @@ getObject chx bag | isIntValue chx  = do
 
 -- isEndfight: The fight is end : The player or the monster is dead
 isEndfight :: Character -> Character -> Bool
-isEndfight (Player endur _) (Monster _ life _) = endur <= 0 || life <= 0
+isEndfight p m = (not . amIAlive) p || (not . amIAlive) m
 
 
 -- getChoice: get the player's choice
