@@ -102,21 +102,21 @@ showStatus p o m  | isNothing o  = return ()
                           getFightStatus p (snd (fromJust o)) m
 
 
--- TODO : check player's (and monster's ??) life and where
-fightRound :: Character -> Maybe (Int, Object) -> IO Character
-fightRound char obj | isNothing obj = return char
-                    | otherwise     = attack (snd (fromJust obj)) char
+playerAttack :: Character -> Maybe (Int, Object) -> IO Character
+playerAttack monster obj  | isNothing obj = return monster
+                          | otherwise     = attack (snd (fromJust obj)) monster
+ 
 
 fight :: Character -> Character -> IO Character
 fight (Player l b) monster | isEndfight (Player l b) monster = return (Player l b)
                            | otherwise = do
-                                  choice <- getChoice b
-                                  let zippedBag = zipBag b
-                                  let ob  = getObject choice zippedBag
-                                  p <- fightRound (Player l b) ob
-                                  m <- fightRound monster (monsterObject monster)
-                                  showStatus p ob m
-                                  fight p m
+                                choice <- getChoice b
+                                let zippedBag = zipBag b
+                                let ob  = getObject choice zippedBag
+                                p <- attack (monsterObject monster) (Player l b)
+                                m <- playerAttack monster ob
+                                showStatus p ob m
+                                fight p m
 
 
 -------------------------------------------------------------------------
