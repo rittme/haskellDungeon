@@ -32,7 +32,7 @@ data Action = Combat Character | Treasure Item | Damage Int | Choices [String]
 
 -- Display the different choices the user have for each action
 actionChoices :: Action -> String
-actionChoices (Treasure Empty) = "The chest was empty.\n1) Continue\n"
+actionChoices (Treasure Empty) = "Nothing useful.\n1) Continue\n"
 actionChoices (Treasure (Weapon o)) = "You find a " ++ name o ++
                                       "\n1) Take " ++ name o ++
                                       "\n2) Leave " ++ name o ++ "\n"
@@ -40,7 +40,7 @@ actionChoices (Treasure (Healing l)) = "You can recover " ++ show l ++
                                        " points of life." ++
                                        "\n1) Heal yourself. \n2) Leave\n"
 actionChoices (Damage d) = "1) Take " ++ show d ++
-                           " damage and leave the room.\n"
+                           " damage and leave.\n"
 actionChoices (Choices opts) = unlines $ map (\(x,y) -> show x ++ ") " ++ y)
                                              (zip [1..] opts)
 actionChoices (Combat m) = "1) Fight " ++ nameChar m
