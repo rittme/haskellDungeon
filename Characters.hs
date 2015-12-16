@@ -1,3 +1,9 @@
+{-
+  Functional Programming -- Lab 4 Mini project : Haskell Dungeon
+  ** Text-based Dungeon Adventure Game **
+
+  Group 38 - Bernardo Rittmeyer, Modou Cissé
+-}
 module Characters where
 
 import Data.List
@@ -55,10 +61,10 @@ attack (Object _ damage) (Player life bag) coeff =
 -- properties attack
 prop_attack :: Object -> Character -> Double -> Bool
 prop_attack object char coef = life (attack object char coef) == 
-                      (life char - floor (coef * fromIntegral (objectDamage object)))
+            (life char - floor (coef * fromIntegral (objectDamage object)))
 
 prop_attackDamage :: Object -> Character -> Double -> Bool
-prop_attackDamage object char coef = life char > life (attack object char coef)
+prop_attackDamage obj char coef = life char > life (attack obj char coef)
 
 
 -- coeff : Generates a coeff for the damage
@@ -79,8 +85,8 @@ printBag :: [(Int, Object)] -> IO ()
 printBag []   = putStrLn "*** No weapon in your bag \n 1) Run "
 printBag list = mapM_ putStrLn [itemToString x | x <- list]
 
-        where itemToString :: (Int, Object) -> String
-              itemToString i = show (fst i) ++ ") Attack with " ++ name (snd i)
+    where itemToString :: (Int, Object) -> String
+          itemToString i = show (fst i) ++ ") Attack with " ++ name (snd i)
 
 
 isIntValue :: String -> Bool
@@ -118,39 +124,44 @@ fightStart (Player pl _) (Monster mn ml _) = putStrLn $ unlines
                                    ,"---------------------------------- \n"]
 
 -- showStatus : shows the fight status (monster and player information)
-showStatus :: Character -> Maybe (Int, Object) -> Character -> Double -> Double -> IO ()
-showStatus p o m cp co  | isNothing o  = return ()
-                        | otherwise    = putStrLn $ unlines $
-                            getFightStatus p (snd (fromJust o)) m cp co
+showStatus :: Character -> Maybe (Int, Object) -> Character -> 
+                                            (Double,Double) -> IO ()
+showStatus p o m (cp,co)  | isNothing o  = return ()
+                          | otherwise    = putStrLn $ unlines $
+                            getStatus p (snd (fromJust o)) m (cp, co)
 
-      where getFightStatus :: Character -> Object -> Character -> Double -> Double -> [String]
-            getFightStatus (Player l b) (Object pn pdm) (Monster s life (Object mn mdm)) cp cm =
-                           ["----------------------------------"
-                            ,"Player used " ++ pn ++ ": " ++ show (floor (cp * fromIntegral pdm)) ++ " damage"
-                            ,s ++ " used " ++ mn ++ ": " ++ show (floor (cm * fromIntegral mdm)) ++ " damage"
-                            ,"Player remaining life: " ++ show l
-                            ,s ++ " remaining life: " ++ show life
-                            ,"---------------------------------- \n"]
+getStatus :: Character -> Object -> Character -> (Double,Double) -> [String]
+getStatus (Player e b) (Object pn pdm) (Monster s l (Object mn mdm)) (cp,cm) =
+                    ["----------------------------------"
+                      ,"Player used " ++ pn ++ ": " ++ 
+                      show (floor (cp * fromIntegral pdm)) ++ " damage"
+                      ,s ++ " used " ++ mn ++ ": " ++ 
+                      show (floor (cm * fromIntegral mdm)) ++ " damage"
+                      ,"Player remaining life: " ++ show e
+                      ,s ++ " remaining life: " ++ show l
+                      ,"---------------------------------- \n"]
 
 -- playerAttack: the player attacks the monster with th choosen weapon
 playerAttack :: Character -> Maybe (Int, Object) -> Double -> Character
-playerAttack monster obj c  | isNothing obj = monster
-                            | otherwise     = attack (snd (fromJust obj)) monster c
+playerAttack m obj c  | isNothing obj   = m
+                      | otherwise       = attack (snd (fromJust obj)) m c
  
 
 -- fight : A fight between the player and a monster
 --          returns the player and the end (one is dead)
 fight :: Character -> Character -> IO Character
-fight (Player l b) monster | isEndfight (Player l b) monster = return (Player l b)
+fight (Player l b) monster | isEndfight (Player l b) monster = 
+                                                    return (Player l b)
                            | otherwise = do
                                 choice <- getChoice b
                                 let zippedBag = zipBag b
                                 let ob  = getObject choice zippedBag
                                 cp <- coeff
                                 cm <- coeff
-                                let p = attack (monsterObject monster) (Player l b) cm
+                                let mObject = monsterObject monster
+                                let p = attack mObject (Player l b) cm
                                 let m = playerAttack monster ob cp
-                                showStatus p ob m cp cm
+                                showStatus p ob m (cp,cm)
                                 fight p m
 
 
