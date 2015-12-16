@@ -66,8 +66,8 @@ opening =
 \ =================================================================================\n\
 \   Fight your way through the deep dungeons of Haskell and try to get out alive!"
 
-showDead :: IO()
-showDead = colorText Red "\
+gameOver :: IO()
+gameOver = colorText Red "\
 \ #####                          #######                      \n\
 \#     #   ##   #    # ######    #     # #    # ###### #####  \n\
 \#        #  #  ##  ## #         #     # #    # #      #    # \n\
@@ -75,16 +75,6 @@ showDead = colorText Red "\
 \#     # ###### #    # #         #     # #    # #      #####  \n\
 \#     # #    # #    # #         #     #  #  #  #      #   #  \n\
 \ #####  #    # #    # ######    #######   ##   ###### #    # "
-
-gameOver :: IO()
-gameOver = colorText Red "\
-\  ▄▀  ██   █▀▄▀█ ▄███▄       ████▄     ▄   ▄███▄   █▄▄▄▄ \n\
-\▄▀    █ █  █ █ █ █▀   ▀      █   █      █  █▀   ▀  █  ▄▀ \n\
-\█ ▀▄  █▄▄█ █ ▄ █ ██▄▄        █   █ █     █ ██▄▄    █▀▀▌  \n\
-\█   █ █  █ █   █ █▄   ▄▀     ▀████  █    █ █▄   ▄▀ █  █  \n\
-\ ███     █    █  ▀███▀               █  █  ▀███▀     █   \n\
-\        █    ▀                        █▐            ▀    \n\
-\       ▀                              ▐                  "
 
 showVictory :: IO()
 showVictory = colorText Green "\
