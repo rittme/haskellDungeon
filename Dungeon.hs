@@ -83,7 +83,7 @@ dungeon = [Room "You wake up in the dungeon cell you have been rotting for ages.
   \the floor. In the center of the crater lies a pile of gold and gems.\n\
   \Standing over it there is a mighty Dragon, king of the mountain.\n\
   \He looks at you with his greedy eyes. If you want to be free, you will have\n\
-  \to make your way through him.\n\
+  \to make your way through this flying terror.\n\
   \ <>=======()\n\
   \(/\\___   /|\\\\          ()==========<>_\n\
   \      \\_/ | \\\\        //|\\   ______/ \\)\n\
@@ -99,4 +99,8 @@ dungeon = [Room "You wake up in the dungeon cell you have been rotting for ages.
   \                 (((~) \\  /\n\
   \                 ______/ /\n\
   \                 '------'"
-    (Combat (Monster "Dragon" 150 (Object "Fire breath" 25)))]
+    (Combat (Monster "Dragon" 150 (Object "Fire breath" 25))),
+
+  Room "You killed the king of the mountain. You are free and full of riches."
+    (Choices ["Leave as fast as you can to enjoy your freedom.",
+              "Get as much gold as you can carry with you before leaving."])]
