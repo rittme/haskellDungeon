@@ -93,21 +93,27 @@ getChoice bag = do
                     then return choice
                   else getChoice bag
 
-
+-- fightStart: show the fight starting stats
+fightStart :: Character -> Character -> IO()
+fightStart (Player pl _) (Monster mn ml _) = putStrLn $ unlines
+                                   ["----------------------------------"
+                                   ,"Player life: " ++ show pl
+                                   ,mn ++ " life: " ++ show ml
+                                   ,"---------------------------------- \n"]
 
 -- showStatus : shows the fight status (monster and player information)
 showStatus :: Character -> Maybe (Int, Object) -> Character -> Double -> Double -> IO ()
 showStatus p o m cp co  | isNothing o  = return ()
-                        | otherwise    = mapM_ putStrLn $
-                          getFightStatus p (snd (fromJust o)) m cp co
+                        | otherwise    = putStrLn $ unlines $
+                            getFightStatus p (snd (fromJust o)) m cp co
 
       where getFightStatus :: Character -> Object -> Character -> Double -> Double -> [String]
             getFightStatus (Player l b) (Object pn pdm) (Monster s life (Object mn mdm)) cp cm =
-                           ["---------------------------------- \n"
-                            ,"Player used " ++ pn ++ ": " ++ show (floor (cp * fromIntegral pdm)) ++ " damage \n"
-                            ,s ++ " used " ++ mn ++ ": " ++ show (floor (cm * fromIntegral mdm)) ++ " damage \n"
-                            ,"\nPlayer remaining life: " ++ show l ++ " \n"
-                            ,s ++ " remaining life: " ++ show life ++ " \n"
+                           ["----------------------------------"
+                            ,"Player used " ++ pn ++ ": " ++ show (floor (cp * fromIntegral pdm)) ++ " damage"
+                            ,s ++ " used " ++ mn ++ ": " ++ show (floor (cm * fromIntegral mdm)) ++ " damage"
+                            ,"Player remaining life: " ++ show l
+                            ,s ++ " remaining life: " ++ show life
                             ,"---------------------------------- \n"]
 
 -- playerAttack: the player attacks the monster with th choosen weapon
@@ -116,7 +122,7 @@ playerAttack monster obj c  | isNothing obj = monster
                             | otherwise     = attack (snd (fromJust obj)) monster c
  
 
--- fight : A fight between the player and a monster 
+-- fight : A fight between the player and a monster
 --          returns the player and the end (one is dead)
 fight :: Character -> Character -> IO Character
 fight (Player l b) monster | isEndfight (Player l b) monster = return (Player l b)

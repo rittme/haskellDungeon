@@ -50,7 +50,7 @@ actionEffect _ (Combat m)             (Player life bag) = error "Combat should n
 
 -- Prompts the user for the desired choice of action
 makeChoice :: Action -> Character -> IO Character
-makeChoice (Combat m) p = fight p m
+makeChoice (Combat m) p = fightStart p m >> fight p m
 makeChoice a p = promptInt (actionChoices a) 1 (actionLgt a) >>= \c ->
                 return (actionEffect c a p)
   where actionLgt :: Action -> Int
