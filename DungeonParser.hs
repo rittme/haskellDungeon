@@ -8,17 +8,17 @@ data Action = Treasure Int | Damage Int
 
 damage = do 
    mapM_ char "DAMAGE "
-   dm <- myParser
+   dm <- myIntParser
    return $ Damage dm
 
 
 healing = do
   mapM_ char "HEALING "
-  hl <- myParser
+  hl <- myIntParser
   return $ Treasure hl
 
-myParser :: Parser Int
-myParser = do 
+myIntParser :: Parser Int
+myIntParser = do 
    d1 <- digit
    d2 <- digit
    return $ read [d1,d2]
