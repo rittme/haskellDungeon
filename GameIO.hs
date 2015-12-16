@@ -2,15 +2,15 @@ module GameIO where
 
 import System.Console.ANSI
 
-colorStrLn :: ColorIntensity -> Color -> ColorIntensity -> Color -> String -> IO ()
-colorStrLn fgi fg bgi bg str = do
-  setSGR [SetColor Foreground fgi fg, SetColor Background bgi bg]
+colorStrLn ::  ConsoleIntensity -> ColorIntensity -> Color -> ColorIntensity -> Color -> String -> IO ()
+colorStrLn bold fgi fg bgi bg str = do
+  setSGR [SetConsoleIntensity bold, SetColor Foreground fgi fg, SetColor Background bgi bg]
   putStr str
   setSGR []
   putStrLn ""
 
 colorText :: Color -> String -> IO()
-colorText c = colorStrLn Dull c Dull Black
+colorText c = colorStrLn NormalIntensity Dull c Dull Black
 
 opening :: IO()
 opening =
@@ -64,4 +64,51 @@ opening =
 \   /_/ /_/\\__,_/____/_/|_|\\___/_/_/  /_____/\\__,_/_/ /_/\\__, /\\___/\\____/_/ /_/ \n\
 \                                                       /____/                   \n\
 \ =================================================================================\n\
-\  Welcome to Haskell Dungeon. Press any key to start to play."
+\   Fight your way through the deep dungeons of Haskell and try to get out alive!"
+
+showDead :: IO()
+showDead = colorText Red "\
+\ #####                          #######                      \n\
+\#     #   ##   #    # ######    #     # #    # ###### #####  \n\
+\#        #  #  ##  ## #         #     # #    # #      #    # \n\
+\#  #### #    # # ## # #####     #     # #    # #####  #    # \n\
+\#     # ###### #    # #         #     # #    # #      #####  \n\
+\#     # #    # #    # #         #     #  #  #  #      #   #  \n\
+\ #####  #    # #    # ######    #######   ##   ###### #    # "
+
+gameOver :: IO()
+gameOver = colorText Red "\
+\  ▄▀  ██   █▀▄▀█ ▄███▄       ████▄     ▄   ▄███▄   █▄▄▄▄ \n\
+\▄▀    █ █  █ █ █ █▀   ▀      █   █      █  █▀   ▀  █  ▄▀ \n\
+\█ ▀▄  █▄▄█ █ ▄ █ ██▄▄        █   █ █     █ ██▄▄    █▀▀▌  \n\
+\█   █ █  █ █   █ █▄   ▄▀     ▀████  █    █ █▄   ▄▀ █  █  \n\
+\ ███     █    █  ▀███▀               █  █  ▀███▀     █   \n\
+\        █    ▀                        █▐            ▀    \n\
+\       ▀                              ▐                  "
+
+showVictory :: IO()
+showVictory = colorText Green "\
+\          You're finally free again. Until the next time.\n\
+\                            .-\"\"\"\"-.\n\
+\                           F       `Y\n\
+\                          F          Y\n\
+\                         I            I\n\
+\                          L          J          ##\n\
+\                           L        J          ###\n\
+\                       #    `-.__.-'          ####\n\
+\              _____   ##                 .---#####-...__\n\
+\          .--'     `-###          .--..-'    ######     \"\"`---....\n\
+\ _____.----.        ###`.._____ .'          #######\n\
+\                    ###       /       -.    ####### _.---\n\
+\                    ###     .(              #######\n\
+\                     #      : `--...        ######\n\
+\                     #       `.     ``.     ######\n\
+\                           _   :       :.    #####\n\
+\                          ( )            )    ###\n\
+\                         ,- -.           /    ##\n\
+\                        |,   .|          |   .##\n\
+\                        || ' |;         |     '\n\
+\                     .  ((_, J         <\n\
+\                   .'    | | |         |\n\
+\                  /      | ; )         |\n\
+\                 '       |_ -          ."
