@@ -18,14 +18,11 @@ life :: Character -> Int
 life (Monster _ l _) = l
 life (Player l _) = l
 
-<<<<<<< HEAD
 
 -- ************* TESTSTSTSTST
-=======
 amIAlive :: Character -> Bool
 amIAlive c = life c > 0
 
->>>>>>> 7172efe3042bb50eb85e58404b3d2c2aeee8ebce
 testbag :: [Object]
 testbag = [Object "Dagger" 10, Object "Shock scroll" 15, Object "Dart" 5]
 
