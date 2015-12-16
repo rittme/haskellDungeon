@@ -34,20 +34,20 @@ actionEffect 1 (Treasure (Healing h)) (Player life bag) = Player (life + h) bag
 actionEffect 2 (Treasure (Healing h)) player            = player
 actionEffect _ (Damage d)             (Player life bag) = Player (life - d) bag --TODO: Player can die
 actionEffect _ (Choices _)            player            = player
-actionEffect _ (Combat m)             (Player life bag) = undefined --TODO: combat -- TODO: run
+actionEffect _ (Combat m)             (Player life bag) = error "Combat should never get here!"
 
 showRoom :: Room -> IO()
 showRoom (Room d a) = putStrLn d
 
 runChoice :: Action -> Character -> IO Character
+runChoice (Combat m) p = fight p m
 runChoice a p = promptInt (actionChoices a) 1 (actionLgt a) >>= \c ->
-                            return (actionEffect c action p)
+                return (actionEffect c a p)
   where actionLgt :: Action -> Int
         actionLgt (Treasure Empty) = 1
         actionLgt (Treasure _)     = 2
         actionLgt (Damage _)       = 1
         actionLgt (Choices n)      = length n
-        actionLgt (Combat _)       = 1
 
 randomRoom :: IO Room
 randomRoom = (generate . elements) rooms
@@ -58,7 +58,25 @@ playRoom r c = showRoom r >> runChoice (action r) c
 rooms :: [Room]
 rooms = [
   Room "You wake up in the dungeon cell you have been rotting for ages. Everything sounds suspiciously quiet. You notice the celldoor is open." (Choices ["Go out"]),
-  Room "You walk into a room. As soon as you step in you feel the air is loaded with a toxic gas, you try to go out as soon as possible but get lightly poisoned." (Damage 10),
-  Room "You enter into a strange room. It's completely different from the rest of the dungeon, contains a magnificent font with healing water." (Treasure (Healing 20)),
-  Room "You enter into a dark room. In a corner you see a closed chest. Opening it you see a Shock Scroll." (Treasure (Weapon (Object "Sword" 25)))
+  Room "You walk a room. As soon as you step in you feel the air is loaded with a toxic gas, you try to go out as soon as possible but get lightly poisoned." (Damage 10),
+  Room "You enter a strange room. It's completely different from the rest of the dungeon, contains a magnificent font with healing water." (Treasure (Healing 20)),
+  Room "You enter a dark room. In a corner you see a closed chest. Opening it you see a Shock Scroll." (Treasure (Weapon (Object "Sword" 25))),
+  Room "You enter a large hall, filled with gold and gems. Standing over it there is a mighty dragon. He looks at you with an greedy look and jumps straight to combat.\n\
+\ <>=======()\n\
+\(/\\___   /|\\\\          ()==========<>_\n\
+\      \\_/ | \\\\        //|\\   ______/ \\)\n\
+\        \\_|  \\\\      // | \\_/\n\
+\          \\|\\/|\\_   //  /\\/\n\
+\           (oo)\\ \\_//  /\n\
+\          //_/\\_\\/ /  |\n\
+\         @@/  |=\\  \\  |\n\
+\              \\_=\\_ \\ |\n\
+\                \\==\\ \\|\\_\n\
+\             __(\\===\\(  )\\\n\
+\            (((~) __(_/   |\n\
+\                 (((~) \\  /\n\
+\                 ______/ /\n\
+\                 '------'" (Combat (Monster "Dragon" 100 (Object "Fire breath" 3)))
   ]
+
+victory = Room "You won!" (Choices [])
