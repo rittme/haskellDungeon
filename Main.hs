@@ -15,8 +15,9 @@ chooseCharacter = do
                     c <- promptInt (unlines $ map (\(x,y) -> show x ++ ") " ++ fst y)(zip [1..] characters)) 1 (length characters)
                     return $ snd (characters !! (c - 1))
 
-startGame :: IO()
-startGame = opening >> chooseCharacter >>= \player -> gameLoop dungeon player
+
+startGame :: FilePath -> IO()
+startGame config = opening >> chooseCharacter >>= \player -> gameLoop (getDungeon config) player
 
 gameLoop :: [Room] -> Character -> IO()
 gameLoop [] c = showVictory
