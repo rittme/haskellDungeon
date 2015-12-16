@@ -20,16 +20,12 @@ life (Player l _) = l
 coeff :: IO Double
 coeff = randomRIO (0.5, 2.0)
 
-attack :: Object -> Character -> IO Character
-attack (Object _ damage) (Monster s life d) = do
-                            n <- coeff
-                            let newLife = life - floor (n * fromIntegral damage) 
-                            return $ Monster s newLife d
+attack :: Object -> Character -> Double -> Character
+attack (Object _ damage) (Monster s life d) coeff =
+                            Monster s (life - floor (coeff * fromIntegral damage)) d
 
-attack (Object _ damage) (Player life bag) =  do
-                                    n <- coeff
-                                    let newLife = life - floor (n * fromIntegral damage)
-                                    return $ Player  newLife bag
+attack (Object _ damage) (Player life bag) coeff =
+                                    Player  (life - floor (coeff * fromIntegral damage)) bag
 
 testbag :: [Object]
 testbag = [Object "Dagger" 10, Object "Shock scroll" 15, Object "Dart" 5]
@@ -86,25 +82,25 @@ getChoice bag = do
                   else getChoice bag
 
 
-getFightStatus :: Character -> Object -> Character -> [String]
-getFightStatus (Player l b) (Object pn pdm) (Monster s life (Object mn mdm)) =
-                ["---------------------------------- \n"
-                            ,"Player used " ++ pn ++ ": " ++ show pdm ++ " damage \n"
-                            ,s ++ " used " ++ mn ++ ": " ++ show mdm ++ " damage \n"
+getFightStatus :: Character -> Object -> Character -> Double -> Double -> [String]
+getFightStatus (Player l b) (Object pn pdm) (Monster s life (Object mn mdm)) cp cm =
+                           ["---------------------------------- \n"
+                            ,"Player used " ++ pn ++ ": " ++ show (floor (cp * fromIntegral pdm)) ++ " damage \n"
+                            ,s ++ " used " ++ mn ++ ": " ++ show (floor (cm * fromIntegral mdm)) ++ " damage \n"
                             ,"\nPlayer remaining life: " ++ show l ++ " \n"
                             ,s ++ " remaining life: " ++ show life ++ " \n"
                             ,"---------------------------------- \n"]
+                            
+
+showStatus :: Character -> Maybe (Int, Object) -> Character -> Double -> Double -> IO ()
+showStatus p o m cp co  | isNothing o  = return ()
+                        | otherwise    = mapM_ putStrLn $
+                          getFightStatus p (snd (fromJust o)) m cp co
 
 
-showStatus :: Character -> Maybe (Int, Object) -> Character -> IO ()
-showStatus p o m  | isNothing o  = return ()
-                  | otherwise    = mapM_ putStrLn $
-                          getFightStatus p (snd (fromJust o)) m
-
-
-playerAttack :: Character -> Maybe (Int, Object) -> IO Character
-playerAttack monster obj  | isNothing obj = return monster
-                          | otherwise     = attack (snd (fromJust obj)) monster
+playerAttack :: Character -> Maybe (Int, Object) -> Double -> Character
+playerAttack monster obj c  | isNothing obj = monster
+                            | otherwise     = attack (snd (fromJust obj)) monster c
  
 
 fight :: Character -> Character -> IO Character
@@ -113,9 +109,11 @@ fight (Player l b) monster | isEndfight (Player l b) monster = return (Player l 
                                 choice <- getChoice b
                                 let zippedBag = zipBag b
                                 let ob  = getObject choice zippedBag
-                                p <- attack (monsterObject monster) (Player l b)
-                                m <- playerAttack monster ob
-                                showStatus p ob m
+                                cp <- coeff
+                                cm <- coeff
+                                let p = attack (monsterObject monster) (Player l b) cm
+                                let m = playerAttack monster ob cp
+                                showStatus p ob m cp cm
                                 fight p m
 
 
