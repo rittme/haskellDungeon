@@ -11,6 +11,23 @@ damage = do
    dm <- myIntParser
    return $ Damage dm
 
+object = do
+   mapM_ char "OBJECT "
+   name <- string
+   char space
+   dm <- myIntParser
+   return $ Treasure (Weapon (Object name dm))
+
+combat = do
+  mapM_ char "COMBAT "
+  name <- string
+  char space
+  life <- myIntParser
+  char space
+  weapon <- string
+  char space
+  dm <- myIntParser
+  return $ Combat (Monster name life (Object weapon dm))
 
 healing = do
   mapM_ char "HEALING "
@@ -31,7 +48,7 @@ actions = damage +++ healing
 -- Combat Character | Treasure Item | Damage Int | Choices [String]
 
 {-
-COMBAT "Dragon" 100 "Claw" 20
+COMBAT "Dragon" 99 "Claw" 20
 OBJECT "sword" 20
 HEALING 20
 DAMAGE 20
