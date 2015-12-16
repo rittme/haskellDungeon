@@ -78,5 +78,3 @@ rooms = [
 \                 ______/ /\n\
 \                 '------'" (Combat (Monster "Dragon" 100 (Object "Fire breath" 3)))
   ]
-
-victory = Room "You won!" (Choices [])
