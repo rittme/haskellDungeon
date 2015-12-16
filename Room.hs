@@ -1,9 +1,9 @@
 module Room where
 
-import Data.Maybe
-import Data.Char
 import Data.String
+import Test.QuickCheck
 
+import Helpers
 import Characters
 
 data Room = Room { description :: String, action :: Action }
@@ -14,15 +14,6 @@ data Item = Weapon Object | Healing Int | Empty
 
 data Action = Combat Character | Treasure Item | Damage Int | Choices [String]
   deriving (Show)
-
-rooms :: [Room]
-rooms = [
-  Room "You wake up in the dungeon cell you have been rotting for ages. Everything sounds suspiciously quiet. You notice the celldoor is open." (Choices ["Go out"]),
-  Room "You walk into a room. As soon as you step in you feel the air is loaded with a toxic gas, you try to go out as soon as possible but get lightly poisoned." (Damage 10),
-  Room "You enter into a strange room. It's completely different from the rest of the dungeon, contains a magnificent font with healing water." (Treasure (Healing 20)),
-  Room "You enter into a dark room. In a corner you see a closed chest. Opening it you see a Shock Scroll." (Treasure (Weapon (Object "Shock Scroll" 15)))
-  ]
-
 
 actionChoices :: Action -> String
 actionChoices (Treasure Empty) = "The chest was empty.\n1) Continue\n"
@@ -46,11 +37,28 @@ actionEffect _ (Choices _)            player            = player
 actionEffect _ (Combat m)             (Player life bag) = undefined --TODO: combat -- TODO: run
 
 showRoom :: Room -> IO()
-showRoom (Room d a) = do
-                        putStrLn d
-                        putStrLn $ actionChoices a
+showRoom (Room d a) = putStrLn d
 
--- runChoice :: Action -> Character -> Character
--- runChoice action player = do
---                             c <- getLine --TODO: to int
---                             return $ actionEffect (read c) action player
+runChoice :: Action -> Character -> IO Character
+runChoice a p = promptInt (actionChoices a) 1 (actionLgt a) >>= \c ->
+                            return (actionEffect c action p)
+  where actionLgt :: Action -> Int
+        actionLgt (Treasure Empty) = 1
+        actionLgt (Treasure _)     = 2
+        actionLgt (Damage _)       = 1
+        actionLgt (Choices n)      = length n
+        actionLgt (Combat _)       = 1
+
+randomRoom :: IO Room
+randomRoom = (generate . elements) rooms
+
+playRoom :: Room -> Character -> IO Character
+playRoom r c = showRoom r >> runChoice (action r) c
+
+rooms :: [Room]
+rooms = [
+  Room "You wake up in the dungeon cell you have been rotting for ages. Everything sounds suspiciously quiet. You notice the celldoor is open." (Choices ["Go out"]),
+  Room "You walk into a room. As soon as you step in you feel the air is loaded with a toxic gas, you try to go out as soon as possible but get lightly poisoned." (Damage 10),
+  Room "You enter into a strange room. It's completely different from the rest of the dungeon, contains a magnificent font with healing water." (Treasure (Healing 20)),
+  Room "You enter into a dark room. In a corner you see a closed chest. Opening it you see a Shock Scroll." (Treasure (Weapon (Object "Sword" 25)))
+  ]
