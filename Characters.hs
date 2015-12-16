@@ -7,7 +7,9 @@ import Test.QuickCheck.Gen
 import System.Random
 
 data Object = Object {name :: String, damage :: Int}
-  deriving(Show)
+
+instance Show Object where
+  show (Object n d) = n ++ " : " ++ show d
 
 data Character = Player Int [Object] | Monster String Int Object
   deriving(Show)

@@ -1,6 +1,7 @@
 module GameIO where
 
 import System.Console.ANSI
+import Characters
 
 colorStrLn ::  ConsoleIntensity -> ColorIntensity -> Color -> ColorIntensity -> Color -> String -> IO ()
 colorStrLn bold fgi fg bgi bg str = do
@@ -102,3 +103,7 @@ showVictory = colorText Green "\
 \                   .'    | | |         |\n\
 \                  /      | ; )         |\n\
 \                 '       |_ -          ."
+
+printCharacter :: Character -> IO()
+printCharacter (Player l o) = colorStrLn NormalIntensity Dull Black Dull White $ "\nPLAYER - life: " ++ show l ++ "\n Objects: " ++ show o
+printCharacter (Monster n l o) = colorStrLn NormalIntensity Dull Black Dull White $ "\n" ++ n ++ " - life: " ++ show l ++ "\n Weapon: " ++ show o

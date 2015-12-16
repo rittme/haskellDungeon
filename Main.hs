@@ -20,6 +20,6 @@ startGame = opening >> chooseCharacter >>= \player -> gameLoop dungeon player
 
 gameLoop :: [Room] -> Character -> IO()
 gameLoop [] c = showVictory
-gameLoop (r:rs) c | amIAlive c = playRoom r c >>= \p -> gameLoop rs p
+gameLoop (r:rs) c | amIAlive c = printCharacter c >> playRoom r c >>= \p -> gameLoop rs p
                   | otherwise  = gameOver
 
